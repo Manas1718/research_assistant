@@ -1,6 +1,6 @@
 from openai import OpenAI
 import os
-client = OpenAI(api_key='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')
+client = OpenAI(api_key='OPENAI_API_KEY')
 import random
 from typing import List, Dict, Tuple
 import re
