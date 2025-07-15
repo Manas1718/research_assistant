@@ -1,5 +1,5 @@
 streamlit==1.29.0
-openai==1.3.5
+groq==0.4.1
 PyPDF2==3.0.1
 python-dotenv==1.0.0
 nltk==3.8.1
@@ -7,3 +7,6 @@ sentence-transformers==2.2.2
 numpy==1.24.3
 pandas==2.0.3
 tiktoken==0.5.1
+
+# Note: Using the official Groq Python SDK for fast inference
+# Alternative models available: llama3-70b-8192, mixtral-8x7b-32768, gemma-7b-it
