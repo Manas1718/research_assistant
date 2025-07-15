@@ -12,7 +12,7 @@ class AIAssistant:
         self.conversation_history = []
         # Initialize Groq client
         self.client = Groq(
-            api_key="GROQAI_API_KEY" #PASTE YOUR GROQ API KEY
+            api_key="YOUR_GROQAI_API_KEY" #PASTE YOUR GROQ API KEY
         )
 
     def generate_summary(self, document_content: str) -> str:
