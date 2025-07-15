@@ -1,6 +1,5 @@
-from openai import OpenAI
+from groq import Groq
 import os
-client = OpenAI(api_key='OPENAI_API_KEY')
 import random
 from typing import List, Dict, Tuple
 import re
@@ -11,9 +10,13 @@ load_dotenv()
 class AIAssistant:
     def __init__(self):
         self.conversation_history = []
+        # Initialize Groq client
+        self.client = Groq(
+            api_key="GROQAI_API_KEY" #PASTE YOUR GROQ API KEY
+        )
 
     def generate_summary(self, document_content: str) -> str:
-        """Generate a concise summary of the document (≤150 words)"""
+        """Generate a concise summary of the document (≤300 words)"""
         prompt = f"""
         Please provide a concise summary of the following document in no more than 150 words. 
         Focus on the main points, key findings, and overall purpose of the document.
@@ -21,14 +24,16 @@ class AIAssistant:
         Document:
         {document_content[:3000]}  # Limit input to avoid token limits
         
-        Summary (≤150 words):
+        Summary (≤300 words):
         """
 
         try:
-            response = client.chat.completions.create(model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=200,
-            temperature=0.3)
+            response = self.client.chat.completions.create(
+                model="llama3-8b-8192",  # Using Llama 3 8B model
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=200,
+                temperature=0.3
+            )
             return response.choices[0].message.content.strip()
         except Exception as e:
             return f"Error generating summary: {str(e)}"
@@ -58,10 +63,12 @@ class AIAssistant:
         """
 
         try:
-            response = client.chat.completions.create(model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=400,
-            temperature=0.2)
+            response = self.client.chat.completions.create(
+                model="llama3-8b-8192",  # Using Llama 3 8B model
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=400,
+                temperature=0.2
+            )
 
             full_response = response.choices[0].message.content.strip()
 
@@ -109,10 +116,12 @@ class AIAssistant:
         """
 
         try:
-            response = client.chat.completions.create(model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=600,
-            temperature=0.4)
+            response = self.client.chat.completions.create(
+                model="llama3-8b-8192",  # Using Llama 3 8B model
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=600,
+                temperature=0.4
+            )
 
             questions_text = response.choices[0].message.content.strip()
             questions = self.parse_challenge_questions(questions_text)
@@ -173,10 +182,12 @@ class AIAssistant:
         """
 
         try:
-            response = client.chat.completions.create(model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=300,
-            temperature=0.3)
+            response = self.client.chat.completions.create(
+                model="llama3-8b-8192",  # Using Llama 3 8B model
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=300,
+                temperature=0.3
+            )
 
             evaluation = response.choices[0].message.content.strip()
 
@@ -197,4 +208,3 @@ class AIAssistant:
                 'feedback': f"Error evaluating answer: {str(e)}",
                 'correct_answer': expected_answer
             }
-
